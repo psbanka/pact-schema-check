@@ -1,0 +1,290 @@
+{
+  "$id": "http://fastly.com/schemas/domain-api-request",
+  "$defs": {
+    "jsonapi_object": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object"
+        },
+        "relationships": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "jsonapi_relationship": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ]
+    },
+    "jsonapi_has_many_relationship": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jsonapi_relationship"
+          }
+        }
+      }
+    },
+    "jsonapi_has_one_relationship": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/jsonapi_relationship"
+        }
+      }
+    },
+    "type_tls_domain": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "tls_domain"
+            },
+            "relationships": {
+              "type": "object",
+              "properties": {
+                "customer": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_activations": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_certificates": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_subscriptions": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "globalsign_migrations": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "type_globalsign_migration": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "globalsign_migration"
+            },
+            "attributes": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "setup",
+                    "ready",
+                    "migrated",
+                    "rollback"
+                  ]
+                }
+              }
+            },
+            "relationships": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "globalsign_domain": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_activation": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_subscription": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_domain": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "type_tls_activation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "tls_activation"
+            },
+            "attributes": {
+              "type": "object"
+            },
+            "relationships": {
+              "type": "object",
+              "properties": {
+                "customer": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_certificate": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_configuration": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_domain": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "globalsign_migration": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "type_tls_certificate": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "tls_certificate"
+            },
+            "attributes": {
+              "type": "object"
+            },
+            "relationships": {
+              "type": "object",
+              "properties": {
+                "tls_domains": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_subscription": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "globalsign_migration": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "type_tls_subscription": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "tls_subscription"
+            },
+            "attributes": {
+              "type": "object"
+            },
+            "relationships": {
+              "type": "object",
+              "properties": {
+                "customer": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
+                },
+                "tls_certificates": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_domains": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_authorizations": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/type_tls_domain"
+      }
+    },
+    "included": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/type_tls_domain"
+          },
+          {
+            "$ref": "#/$defs/type_tls_subscription"
+          },
+          {
+            "$ref": "#/$defs/type_tls_certificate"
+          },
+          {
+            "$ref": "#/$defs/type_globalsign_migration"
+          },
+          {
+            "$ref": "#/$defs/type_tls_activation"
+          }
+        ]
+      }
+    },
+    "links": {
+      "type": "object"
+    },
+    "meta": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}
