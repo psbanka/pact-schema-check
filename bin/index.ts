@@ -1,4 +1,4 @@
-// Using ts-node NODE v14
+#!/usr/bin/env node
 
 const Ajv = require("ajv")
 const ajvInstance = new Ajv({ allErrors: true })
