@@ -1,10 +1,10 @@
 {
   "name": "@fastly/pact-schema-check",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A library for testing pact contracts against json-schema",
-  "main": "index.ts",
+  "main": "bin/index.ts",
   "scripts": {
-    "test": "ts-node index.ts pacts/spotless.json"
+    "test": "ts-node bin/index.ts pacts/spotless.json"
   },
   "keywords": [
     "pact",
