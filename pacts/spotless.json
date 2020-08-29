@@ -4,600 +4,6 @@
   },
   "interactions": [
     {
-      "description": "tls/certificates endpoint",
-      "providerStates": [
-        {
-          "name": "the fastly customer exists"
-        },
-        {
-          "name": "a generic certificate exists"
-        }
-      ],
-      "request": {
-        "headers": {
-          "Accept": "application/vnd.api+json",
-          "Content-Type": "application/vnd.api+json"
-        },
-        "method": "GET",
-        "path": "http://api.dev.local/tls/certificates",
-        "query": {
-          "filter[customer.id]": [
-            "M4HCwJxJPGCIBSlRd5ETh"
-          ],
-          "page[number]": [
-            "1"
-          ],
-          "page[size]": [
-            "20"
-          ],
-          "sort": [
-            ""
-          ]
-        }
-      },
-      "response": {
-        "body": {
-          "data": [
-            {
-              "attributes": {
-                "created_at": "2017-04-23T12:45:00.000Z",
-                "issued_to": "www.fastlycerts.com",
-                "issuer": "Fastly Certificate Service",
-                "not_after": "2018-04-29T12:45:00.000Z",
-                "not_before": "2017-04-30T12:45:00.000Z",
-                "replace": false,
-                "serial_number": "22929299922",
-                "signature_algorithm": "SHA256-RSA",
-                "updated_at": "2018-02-25T12:45:00.000Z"
-              },
-              "id": "tls-cert1",
-              "relationships": {
-                "tls_domains": {
-                  "data": []
-                }
-              },
-              "type": "tls_certificate"
-            }
-          ],
-          "meta": {
-            "current_page": 1,
-            "per_page": 20,
-            "record_count": 1,
-            "total_pages": 1
-          }
-        },
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "matchingRules": {
-          "body": {
-            "$.data[0].attributes.cert_blob": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "-+BEGIN CERTIFICATE-+\r?\n?[a-zA-Z0-9=+\n\r/]*-+END CERTIFICATE-+"
-                }
-              ]
-            },
-            "$.data[0].attributes.created_at": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
-                }
-              ]
-            },
-            "$.data[0].attributes.name": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.data[0].attributes.not_after": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
-                }
-              ]
-            },
-            "$.data[0].attributes.not_before": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
-                }
-              ]
-            },
-            "$.data[0].attributes.signature_algorithm": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.data[0].attributes.updated_at": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
-                }
-              ]
-            },
-            "$.data[0].id": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.data[0].relationships.customer.data.id": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
-        },
-        "status": 200
-      }
-    },
-    {
-      "description": "tls/configuration endpoint",
-      "providerStates": [
-        {
-          "name": "the fastly customer exists"
-        },
-        {
-          "name": "dns records exist"
-        },
-        {
-          "name": "a TLS configuration exists",
-          "params": {
-            "tlsConfigurationId": 22
-          }
-        }
-      ],
-      "request": {
-        "headers": {
-          "Accept": "application/vnd.api+json",
-          "Content-Type": "application/vnd.api+json"
-        },
-        "method": "GET",
-        "path": "http://api.dev.local/tls/configurations",
-        "query": {
-          "filter[customer.id]": [
-            "M4HCwJxJPGCIBSlRd5ETh"
-          ],
-          "include": [
-            "dns_records"
-          ]
-        }
-      },
-      "response": {
-        "body": {
-          "data": [
-            {
-              "attributes": {
-                "created_at": "2017-04-23T12:45:00.000Z",
-                "default": true,
-                "http_protocols": [
-                  "http/1.1",
-                  "http/2"
-                ],
-                "name": "a",
-                "tls_protocols": [
-                  "1.2",
-                  "1.3"
-                ]
-              },
-              "id": "22",
-              "relationships": {
-                "dns_records": {
-                  "data": [
-                    {
-                      "id": "151.101.2.133",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.101.66.133",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.101.130.133",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.101.194.133",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42::645",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:200::645",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:400::645",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:600::645",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "d.sni.global.fastly.net",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.111.11.199",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.111.28.199",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.111.34.199",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.111.99.199",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42::115",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:200::115",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:400::115",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:600::115",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "d.sni.us-eu.fastly.net",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.128.88.201",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.128.98.201",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.128.112.201",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "151.128.75.201",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42::101",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:200::101",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:400::101",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "2a04:4e42:600::101",
-                      "type": "dns_record"
-                    },
-                    {
-                      "id": "d.sni.otherstuff.fastly.net",
-                      "type": "dns_record"
-                    }
-                  ]
-                },
-                "service": {
-                  "data": {
-                    "id": "1",
-                    "type": "service"
-                  }
-                }
-              },
-              "type": "tls_configuration"
-            }
-          ],
-          "included": [
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "global"
-              },
-              "id": "151.101.2.133",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "global"
-              },
-              "id": "151.101.66.133",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "global"
-              },
-              "id": "151.101.130.133",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "global"
-              },
-              "id": "151.101.194.133",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "global"
-              },
-              "id": "2a04:4e42::645",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "global"
-              },
-              "id": "2a04:4e42:200::645",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "global"
-              },
-              "id": "2a04:4e42:400::645",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "global"
-              },
-              "id": "2a04:4e42:600::645",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "CNAME",
-                "region": "global"
-              },
-              "id": "d.sni.global.fastly.net",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz100"
-              },
-              "id": "151.111.11.199",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz100"
-              },
-              "id": "151.111.28.199",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz100"
-              },
-              "id": "151.111.34.199",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz100"
-              },
-              "id": "151.111.99.199",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz100"
-              },
-              "id": "2a04:4e42::115",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz100"
-              },
-              "id": "2a04:4e42:200::115",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz100"
-              },
-              "id": "2a04:4e42:400::115",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz100"
-              },
-              "id": "2a04:4e42:600::115",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "CNAME",
-                "region": "mbz100"
-              },
-              "id": "d.sni.us-eu.fastly.net",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz200"
-              },
-              "id": "151.128.88.201",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz200"
-              },
-              "id": "151.128.98.201",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz200"
-              },
-              "id": "151.128.112.201",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "A",
-                "region": "mbz200"
-              },
-              "id": "151.128.75.201",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz200"
-              },
-              "id": "2a04:4e42::101",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz200"
-              },
-              "id": "2a04:4e42:200::101",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz200"
-              },
-              "id": "2a04:4e42:400::101",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "AAAA",
-                "region": "mbz200"
-              },
-              "id": "2a04:4e42:600::101",
-              "type": "dns_record"
-            },
-            {
-              "attributes": {
-                "record_type": "CNAME",
-                "region": "mbz200"
-              },
-              "id": "d.sni.otherstuff.fastly.net",
-              "type": "dns_record"
-            }
-          ],
-          "meta": {
-            "current_page": 1,
-            "per_page": 100,
-            "record_count": 1,
-            "total_pages": 1
-          }
-        },
-        "headers": {
-          "Content-Type": "application/vnd.api+json"
-        },
-        "matchingRules": {
-          "body": {
-            "$.data[0].attributes.created_at": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
-                }
-              ]
-            },
-            "$.data[0].attributes.default": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.data[0].attributes.http_protocols[0].name": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "^\\d\\.\\d$"
-                }
-              ]
-            },
-            "$.data[0].attributes.tls_protocols[0].name": {
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "^(http\\/\\d\\.?\\d?)|(quic)$"
-                }
-              ]
-            },
-            "$.data[0].id": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            },
-            "$.data[0].relationships.customer.data.id": {
-              "matchers": [
-                {
-                  "match": "type"
-                }
-              ]
-            }
-          }
-        },
-        "status": 200
-      }
-    },
-    {
       "description": "tls/domains",
       "providerStates": [
         {
@@ -629,7 +35,7 @@
       "request": {
         "headers": {
           "Accept": "application/vnd.api+json",
-          "Content-Type": "application/vnd.api+json"
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         "method": "GET",
         "path": "http://api.dev.local/tls/domains",
@@ -655,15 +61,13 @@
         "body": {
           "data": [
             {
-              "attributes": {
-                "created_at": "2018-03-25T12:45:00.000Z"
-              },
-              "id": "foo.bar.com",
+              "id": "jul2.cam.secretssl.com",
+              "type": "tls_domain",
               "relationships": {
                 "tls_activations": {
                   "data": [
                     {
-                      "id": "tls-activation-1",
+                      "id": "4UX6GljzolrsEHGlsGvjGt",
                       "type": "tls_activation"
                     }
                   ]
@@ -671,30 +75,233 @@
                 "tls_certificates": {
                   "data": [
                     {
-                      "id": "tls-cert1",
+                      "id": "2qElfodamMVuhs4ICQ36tS",
                       "type": "tls_certificate"
                     }
                   ]
                 },
                 "tls_subscriptions": {
-                  "data": []
+                  "data": [
+                    {
+                      "id": "Dq59zxuWCiREV4eCaBj9xA",
+                      "type": "tls_subscription"
+                    }
+                  ]
                 }
-              },
-              "type": "tls_domain"
+              }
             },
             {
-              "attributes": {
-                "created_at": "2018-03-25T12:45:00.000Z"
-              },
-              "id": "www.bar.com",
+              "id": "jun1.production.appengtls.com",
+              "type": "tls_domain",
               "relationships": {
                 "tls_activations": {
-                  "data": []
+                  "data": [
+                    {
+                      "id": "3AeqJVg0Xqqfq7mpNFO1vH",
+                      "type": "tls_activation"
+                    }
+                  ]
                 },
                 "tls_certificates": {
                   "data": [
                     {
-                      "id": "tls-cert1",
+                      "id": "3qNAZ9gFhBDILz3ODjTUlC",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "ZCLXAPgWCOASZldgzoX0Ew",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "jun11.cam.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "13Q5HmZsTWWC9mQewsM5bP",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "2E5WvLCUhdTftQrHyu9hM9",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "qKhfvvnk78bMPg4nA4y7SQ",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "jun18.cam.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "4Vz2Kozg6PiRs4vByO0qP2",
+                      "type": "tls_activation"
+                    },
+                    {
+                      "id": "6KhUaYGLOL1Z7BWKnqcpYd",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "11sOG2555aCcItcefCRZo8",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "LwBqH3NAatOhw7pliaAZuw",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "jun8.production.appengtls.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "0iSkAvg6MwOP60oajFS19T",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "7Hp4mKgd2ECOoXuULXXEu3",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "PA0hTr1p5WgqCKStzhGRDA",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "peba.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "3cEtFsCtmIduvbWwW1J3yE",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "2hsI8GPdtNgev7loOmoFz9",
+                      "type": "tls_certificate"
+                    },
+                    {
+                      "id": "3sPGX8RgKH1QLNSGLdMd05",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "lv1fwe9GPbUMAMVqBATYMQ",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "sayalid.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "232FG2St1UHZYQQEMUrP9u",
+                      "type": "tls_activation"
+                    },
+                    {
+                      "id": "50SzQKVGfJd9BTY2yD7Dig",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "1IJs98wT6a1xurznBzIuT9",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "btN1hOD8rtgIog8A1cngLQ",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "squee-tls.global.ssl.fastly.net",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "3OrAEEGSooUl3MFV1t3E4b",
+                      "type": "tls_activation"
+                    },
+                    {
+                      "id": "5n55RlBzEN5rMs0QFGjnEd",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "7OTopNHRNcm2jqALVBmwQg",
                       "type": "tls_certificate"
                     }
                   ]
@@ -702,69 +309,1873 @@
                 "tls_subscriptions": {
                   "data": []
                 }
-              },
-              "type": "tls_domain"
+              }
+            },
+            {
+              "id": "squeemishly.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "5MfD74ewCGf0hgENUcs6ys",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "64pSiVH5luXYRzuwvbTAgu",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": []
+                }
+              }
+            },
+            {
+              "id": "test-240.rsouza.appengtls.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "4yPVQ2nbtWeEhHr0UcVS1W",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3hMYE0yEoUg1B8M1nSipH0",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "qIq25oecV7MpZ9kIRpdTdQ",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "test-legacy-240.rsouza.appengtls.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "6GXuZ5urC6JwCopBB4WXCc",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "4vblIG4XoMsIXH4HqCZ503",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "ki9IZuxJYX4vzvqRFA4ajA",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "very.secretssl.com",
+              "type": "tls_domain",
+              "relationships": {
+                "tls_activations": {
+                  "data": [
+                    {
+                      "id": "1Imgq7qRHgoCofLayMQSqk",
+                      "type": "tls_activation"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3mwEnjpgBuw86jP0i5CH77",
+                      "type": "tls_certificate"
+                    },
+                    {
+                      "id": "30cDThtrsZtBakl8Fz2ip3",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_subscriptions": {
+                  "data": [
+                    {
+                      "id": "b3q7qDGx4lndbIUuXdujfQ",
+                      "type": "tls_subscription"
+                    }
+                  ]
+                }
+              }
             }
           ],
           "included": [
             {
+              "id": "4UX6GljzolrsEHGlsGvjGt",
+              "type": "tls_activation",
               "attributes": {
-                "created_at": "2017-04-23T12:45:00.000Z",
-                "issued_to": "www.fastlycerts.com",
-                "issuer": "Fastly Certificate Service",
-                "name": "foo.bar.com",
-                "not_after": "2018-04-29T12:45:00.000Z",
-                "not_before": "2017-04-30T12:45:00.000Z",
-                "replace": false,
-                "serial_number": "22929299922",
-                "signature_algorithm": "SHA256-RSA",
-                "source": "self-service",
-                "updated_at": "2018-02-25T12:45:00.000Z"
+                "created_at": "2020-07-02T19:48:13.000Z"
               },
-              "id": "tls-cert1",
               "relationships": {
-                "tls_domains": {
-                  "data": [
-                    {
-                      "id": "foo.bar.com",
-                      "type": "tls_domain"
-                    },
-                    {
-                      "id": "www.bar.com",
-                      "type": "tls_domain"
-                    }
-                  ]
-                }
-              },
-              "type": "tls_certificate"
-            },
-            {
-              "attributes": {
-                "created_at": "2018-03-25T12:45:00.000Z",
-                "updated_at": "2018-03-25T12:45:00.000Z"
-              },
-              "id": "tls-activation-1",
-              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "2qElfodamMVuhs4ICQ36tS",
+                    "type": "tls_certificate"
+                  }
+                },
                 "tls_configuration": {
                   "data": {
-                    "id": "22",
+                    "id": "szfnmPTiYAvodGWLng5sQA",
                     "type": "tls_configuration"
                   }
                 },
                 "tls_domain": {
                   "data": {
-                    "id": "foo.bar.com",
+                    "id": "jul2.cam.secretssl.com",
                     "type": "tls_domain"
                   }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
                 }
+              }
+            },
+            {
+              "id": "2qElfodamMVuhs4ICQ36tS",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-07-02T19:48:13.000Z",
+                "issued_to": "jul2.cam.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-09-30T18:47:55.000Z",
+                "not_before": "2020-07-02T18:47:55.000Z",
+                "replace": false,
+                "serial_number": "362096832447287208101180020161114889879509",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-07-02T19:48:13.000Z"
               },
-              "type": "tls_activation"
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jul2.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "Dq59zxuWCiREV4eCaBj9xA",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "Dq59zxuWCiREV4eCaBj9xA",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-07-02T19:40:54.000Z",
+                "state": "issued",
+                "updated_at": "2020-07-02T19:48:13.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "HKEI7TjHfKwNvNRVFcy2lg",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "2qElfodamMVuhs4ICQ36tS",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jul2.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "HKEI7TjHfKwNvNRVFcy2lg",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.jul2.cam.secretssl.com",
+                    "values": [
+                      "ayb49sqt3krya4a7s8.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "jul2.cam.secretssl.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "jul2.cam.secretssl.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-07-02T19:40:54.000Z",
+                "state": "passing",
+                "updated_at": "2020-07-02T19:46:31.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "3AeqJVg0Xqqfq7mpNFO1vH",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-01T17:46:45.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "3qNAZ9gFhBDILz3ODjTUlC",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "jun1.production.appengtls.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "3qNAZ9gFhBDILz3ODjTUlC",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-01T17:46:44.000Z",
+                "issued_to": "jun1.production.appengtls.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-08-30T16:46:31.000Z",
+                "not_before": "2020-06-01T16:46:31.000Z",
+                "replace": false,
+                "serial_number": "409653214137896788361942644252991820796084",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-01T17:46:44.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun1.production.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "ZCLXAPgWCOASZldgzoX0Ew",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "ZCLXAPgWCOASZldgzoX0Ew",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-06-01T17:44:55.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-01T17:46:45.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "fEEikIC8J0jnZvgjyuNCSA",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3qNAZ9gFhBDILz3ODjTUlC",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun1.production.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "fEEikIC8J0jnZvgjyuNCSA",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.jun1.production.appengtls.com",
+                    "values": [
+                      "ys5zkk2m593rcedjk8.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "jun1.production.appengtls.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "jun1.production.appengtls.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-06-01T17:44:55.000Z",
+                "state": "passing",
+                "updated_at": "2020-06-01T17:44:55.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "13Q5HmZsTWWC9mQewsM5bP",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-11T18:31:21.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "2E5WvLCUhdTftQrHyu9hM9",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "jun11.cam.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "2E5WvLCUhdTftQrHyu9hM9",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-11T18:31:21.000Z",
+                "issued_to": "jun11.cam.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-09-09T17:31:06.000Z",
+                "not_before": "2020-06-11T17:31:06.000Z",
+                "replace": false,
+                "serial_number": "346079847513135297330852688418928781952144",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-11T18:31:21.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun11.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "qKhfvvnk78bMPg4nA4y7SQ",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "qKhfvvnk78bMPg4nA4y7SQ",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-06-11T18:24:11.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-11T18:31:21.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "4Kg1mv6JxEMheYK231VITg",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "2E5WvLCUhdTftQrHyu9hM9",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun11.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "4Kg1mv6JxEMheYK231VITg",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.jun11.cam.secretssl.com",
+                    "values": [
+                      "jsqy6nh48pbi9unag3.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "jun11.cam.secretssl.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "jun11.cam.secretssl.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-06-11T18:24:11.000Z",
+                "state": "passing",
+                "updated_at": "2020-06-11T18:29:39.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "4Vz2Kozg6PiRs4vByO0qP2",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-26T22:08:57.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "11sOG2555aCcItcefCRZo8",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "jun18.cam.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "6KhUaYGLOL1Z7BWKnqcpYd",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-18T22:07:18.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "11sOG2555aCcItcefCRZo8",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "jun18.cam.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "11sOG2555aCcItcefCRZo8",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-18T22:07:17.000Z",
+                "issued_to": "jun18.cam.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-09-16T21:06:56.000Z",
+                "not_before": "2020-06-18T21:06:56.000Z",
+                "replace": false,
+                "serial_number": "364558444097417260378399143847774314849824",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-18T22:07:17.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun18.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "LwBqH3NAatOhw7pliaAZuw",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "LwBqH3NAatOhw7pliaAZuw",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-06-18T21:59:54.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-18T22:07:18.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "oFj2pW86z6sXkeUUjZAOHw",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "11sOG2555aCcItcefCRZo8",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun18.cam.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "oFj2pW86z6sXkeUUjZAOHw",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.jun18.cam.secretssl.com",
+                    "values": [
+                      "6o3zk3thu115miwz87.fastly-validations.com"
+                    ]
+                  }
+                ],
+                "created_at": "2020-06-18T21:59:54.000Z",
+                "state": "passing",
+                "updated_at": "2020-06-18T22:05:38.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "0iSkAvg6MwOP60oajFS19T",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-08T23:32:14.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "7Hp4mKgd2ECOoXuULXXEu3",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "jun8.production.appengtls.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "7Hp4mKgd2ECOoXuULXXEu3",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-08T23:32:14.000Z",
+                "issued_to": "jun8.production.appengtls.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-09-06T22:31:53.000Z",
+                "not_before": "2020-06-08T22:31:53.000Z",
+                "replace": false,
+                "serial_number": "346403894105294209635639004352399734001888",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-08T23:32:14.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun8.production.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "PA0hTr1p5WgqCKStzhGRDA",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "PA0hTr1p5WgqCKStzhGRDA",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-06-08T23:30:36.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-08T23:32:14.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "ej4AAh3RYkE5zXh0MKbGHQ",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "7Hp4mKgd2ECOoXuULXXEu3",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "jun8.production.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "ej4AAh3RYkE5zXh0MKbGHQ",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.jun8.production.appengtls.com",
+                    "values": [
+                      "hkgovnd7mscjepesin.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "jun8.production.appengtls.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "jun8.production.appengtls.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-06-08T23:30:36.000Z",
+                "state": "passing",
+                "updated_at": "2020-06-08T23:30:37.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "3cEtFsCtmIduvbWwW1J3yE",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-05-07T23:57:48.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "3sPGX8RgKH1QLNSGLdMd05",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "peba.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "2hsI8GPdtNgev7loOmoFz9",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-05-07T23:43:21.000Z",
+                "issued_to": "peba.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "peba.secretssl.com",
+                "not_after": "2020-06-23T21:38:50.000Z",
+                "not_before": "2020-03-25T21:38:50.000Z",
+                "replace": false,
+                "serial_number": "324263811323938248128693167816360339024895",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-05-07T23:43:21.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "peba.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "3sPGX8RgKH1QLNSGLdMd05",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-05-20T20:54:52.000Z",
+                "issued_to": "peba.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-08-18T19:54:37.000Z",
+                "not_before": "2020-05-20T19:54:37.000Z",
+                "replace": false,
+                "serial_number": "338637178757935252038343670496272332595564",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-05-20T20:54:52.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "peba.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "lv1fwe9GPbUMAMVqBATYMQ",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "lv1fwe9GPbUMAMVqBATYMQ",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-05-20T20:49:27.000Z",
+                "state": "issued",
+                "updated_at": "2020-05-20T20:54:52.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "8vAMoz559eKaL8ZtELIa9g",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3sPGX8RgKH1QLNSGLdMd05",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "peba.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "8vAMoz559eKaL8ZtELIa9g",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.peba.secretssl.com",
+                    "values": [
+                      "m3j2t1m51a0mg1s0sn.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "peba.secretssl.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "peba.secretssl.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-05-20T20:49:27.000Z",
+                "state": "passing",
+                "updated_at": "2020-05-20T20:49:28.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "232FG2St1UHZYQQEMUrP9u",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-07-07T21:11:05.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "1IJs98wT6a1xurznBzIuT9",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "sayalid.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "50SzQKVGfJd9BTY2yD7Dig",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-07-07T21:36:06.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "1IJs98wT6a1xurznBzIuT9",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "sayalid.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "1IJs98wT6a1xurznBzIuT9",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-29T20:19:05.000Z",
+                "issued_to": "sayalid.secretssl.com",
+                "issuer": "GlobalSign HV RSA DV SSL CA 2018",
+                "name": "Fastly managed certificate",
+                "not_after": "2021-06-29T20:19:00.000Z",
+                "not_before": "2020-06-29T20:19:00.000Z",
+                "replace": false,
+                "serial_number": "2306329416680177265724874368134467077",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-29T20:19:05.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "sayalid.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "btN1hOD8rtgIog8A1cngLQ",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "btN1hOD8rtgIog8A1cngLQ",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "globalsign",
+                "created_at": "2020-06-29T20:18:59.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-29T20:19:05.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "vlJAZuJHOwA5HJLqEf8NBg",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "1IJs98wT6a1xurznBzIuT9",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "sayalid.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "vlJAZuJHOwA5HJLqEf8NBg",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.sayalid.secretssl.com",
+                    "values": [
+                      "t4qquwx4g3o9c0q09p.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "sayalid.secretssl.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "sayalid.secretssl.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-06-29T20:18:59.000Z",
+                "state": "passing",
+                "updated_at": "2020-06-29T20:18:59.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "3OrAEEGSooUl3MFV1t3E4b",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-22T21:41:30.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "7OTopNHRNcm2jqALVBmwQg",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "squee-tls.global.ssl.fastly.net",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "5n55RlBzEN5rMs0QFGjnEd",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-07-02T16:37:18.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "7OTopNHRNcm2jqALVBmwQg",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "1uLATU8S7wDPF1l0MvCbuA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "squee-tls.global.ssl.fastly.net",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "7OTopNHRNcm2jqALVBmwQg",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-22T21:41:05.000Z",
+                "issued_to": "squee-tls.global.ssl.fastly.net",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "squee-tls.global.ssl.fastly.net",
+                "not_after": "2020-09-20T20:16:57.000Z",
+                "not_before": "2020-06-22T20:16:57.000Z",
+                "replace": false,
+                "serial_number": "302771572026633522457815776347396690030516",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-22T21:41:05.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "squee-tls.global.ssl.fastly.net",
+                      "type": "tls_domain"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "5MfD74ewCGf0hgENUcs6ys",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-06-22T21:51:55.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "64pSiVH5luXYRzuwvbTAgu",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "squeemishly.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "64pSiVH5luXYRzuwvbTAgu",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-22T21:50:32.000Z",
+                "issued_to": "squeemishly.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "squeemishly.secretssl.com",
+                "not_after": "2020-09-20T20:46:22.000Z",
+                "not_before": "2020-06-22T20:46:22.000Z",
+                "replace": false,
+                "serial_number": "391690147506635335238992300922664282824560",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-22T21:50:32.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "squeemishly.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "4yPVQ2nbtWeEhHr0UcVS1W",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-05-13T20:24:12.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "3hMYE0yEoUg1B8M1nSipH0",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "test-240.rsouza.appengtls.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "3hMYE0yEoUg1B8M1nSipH0",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-05-13T20:24:11.000Z",
+                "issued_to": "test-240.rsouza.appengtls.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-08-11T19:23:51.000Z",
+                "not_before": "2020-05-13T19:23:51.000Z",
+                "replace": false,
+                "serial_number": "391866256494232283516383613793268422465204",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-05-13T20:24:11.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "test-240.rsouza.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "qIq25oecV7MpZ9kIRpdTdQ",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "qIq25oecV7MpZ9kIRpdTdQ",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-05-13T20:15:38.000Z",
+                "state": "issued",
+                "updated_at": "2020-05-13T20:24:12.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "wLMiYzrNa9Z8ZExzvaAZJg",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3hMYE0yEoUg1B8M1nSipH0",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "test-240.rsouza.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "wLMiYzrNa9Z8ZExzvaAZJg",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.test-240.rsouza.appengtls.com",
+                    "values": [
+                      "h0lw8l48asdeb3rjoa.fastly-validations.com"
+                    ]
+                  }
+                ],
+                "created_at": "2020-05-13T20:15:38.000Z",
+                "state": "passing",
+                "updated_at": "2020-05-13T20:21:11.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "6GXuZ5urC6JwCopBB4WXCc",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-05-13T20:29:49.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "4vblIG4XoMsIXH4HqCZ503",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "test-legacy-240.rsouza.appengtls.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "4vblIG4XoMsIXH4HqCZ503",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-05-13T20:29:48.000Z",
+                "issued_to": "test-legacy-240.rsouza.appengtls.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-08-11T19:29:34.000Z",
+                "not_before": "2020-05-13T19:29:34.000Z",
+                "replace": false,
+                "serial_number": "267299359428533072501934869236108924471001",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-05-13T20:29:49.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "test-legacy-240.rsouza.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "ki9IZuxJYX4vzvqRFA4ajA",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "ki9IZuxJYX4vzvqRFA4ajA",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-05-13T20:24:23.000Z",
+                "state": "issued",
+                "updated_at": "2020-05-26T15:57:21.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "oUpLOSwp0tgu0j64y9fPLA",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "4vblIG4XoMsIXH4HqCZ503",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "test-legacy-240.rsouza.appengtls.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "33UUhjwiToTthYABQsJdqg",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "oUpLOSwp0tgu0j64y9fPLA",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.test-legacy-240.rsouza.appengtls.com",
+                    "values": [
+                      "420hj144oe4x6i0jyu.fastly-validations.com"
+                    ]
+                  }
+                ],
+                "created_at": "2020-05-13T20:24:23.000Z",
+                "state": "passing",
+                "updated_at": "2020-05-13T20:24:23.000Z",
+                "warnings": []
+              }
+            },
+            {
+              "id": "1Imgq7qRHgoCofLayMQSqk",
+              "type": "tls_activation",
+              "attributes": {
+                "created_at": "2020-07-02T19:39:28.000Z"
+              },
+              "relationships": {
+                "tls_certificate": {
+                  "data": {
+                    "id": "30cDThtrsZtBakl8Fz2ip3",
+                    "type": "tls_certificate"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                },
+                "tls_domain": {
+                  "data": {
+                    "id": "very.secretssl.com",
+                    "type": "tls_domain"
+                  }
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                }
+              }
+            },
+            {
+              "id": "3mwEnjpgBuw86jP0i5CH77",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-06-08T00:45:50.000Z",
+                "issued_to": "very.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "Fastly managed certificate",
+                "not_after": "2020-09-05T23:45:32.000Z",
+                "not_before": "2020-06-07T23:45:32.000Z",
+                "replace": false,
+                "serial_number": "343950127554767993505746882767441251299354",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-06-08T00:45:50.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "very.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "tls_subscription": {
+                  "data": {
+                    "id": "b3q7qDGx4lndbIUuXdujfQ",
+                    "type": "tls_subscription"
+                  }
+                }
+              }
+            },
+            {
+              "id": "30cDThtrsZtBakl8Fz2ip3",
+              "type": "tls_certificate",
+              "attributes": {
+                "created_at": "2020-07-02T19:38:56.000Z",
+                "issued_to": "very.secretssl.com",
+                "issuer": "Let's Encrypt Authority X3",
+                "name": "very.secretssl.com",
+                "not_after": "2020-09-30T17:14:20.000Z",
+                "not_before": "2020-07-02T17:14:20.000Z",
+                "replace": false,
+                "serial_number": "274731474261192482220173437994174740992599",
+                "signature_algorithm": "SHA256-RSA",
+                "updated_at": "2020-07-02T19:38:56.000Z"
+              },
+              "relationships": {
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "very.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "b3q7qDGx4lndbIUuXdujfQ",
+              "type": "tls_subscription",
+              "attributes": {
+                "certificate_authority": "lets-encrypt",
+                "created_at": "2020-04-08T22:36:04.000Z",
+                "state": "issued",
+                "updated_at": "2020-06-08T00:45:50.000Z"
+              },
+              "relationships": {
+                "tls_authorizations": {
+                  "data": [
+                    {
+                      "id": "jao1LAOwLlkWNDiWaHWOog",
+                      "type": "tls_authorization"
+                    }
+                  ]
+                },
+                "tls_certificates": {
+                  "data": [
+                    {
+                      "id": "3mwEnjpgBuw86jP0i5CH77",
+                      "type": "tls_certificate"
+                    }
+                  ]
+                },
+                "tls_domains": {
+                  "data": [
+                    {
+                      "id": "very.secretssl.com",
+                      "type": "tls_domain"
+                    }
+                  ]
+                },
+                "customer": {
+                  "data": {
+                    "id": "1S5uCkNAEhEMS2ZoJZoiCn",
+                    "type": "customer"
+                  }
+                },
+                "tls_configuration": {
+                  "data": {
+                    "id": "szfnmPTiYAvodGWLng5sQA",
+                    "type": "tls_configuration"
+                  }
+                }
+              }
+            },
+            {
+              "id": "jao1LAOwLlkWNDiWaHWOog",
+              "type": "tls_authorization",
+              "attributes": {
+                "challenges": [
+                  {
+                    "type": "managed-dns",
+                    "record_type": "CNAME",
+                    "record_name": "_acme-challenge.very.secretssl.com",
+                    "values": [
+                      "v6a35x2p2h48etaz4g.fastly-validations.com"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-cname",
+                    "record_type": "CNAME",
+                    "record_name": "very.secretssl.com",
+                    "values": [
+                      "d.sni.global.fastly.net"
+                    ]
+                  },
+                  {
+                    "type": "managed-http-a",
+                    "record_type": "A",
+                    "record_name": "very.secretssl.com",
+                    "values": [
+                      "151.101.2.133",
+                      "151.101.66.133",
+                      "151.101.130.133",
+                      "151.101.194.133"
+                    ]
+                  }
+                ],
+                "created_at": "2020-04-08T22:36:04.000Z",
+                "state": "passing",
+                "updated_at": "2020-04-08T22:36:10.000Z",
+                "warnings": []
+              }
             }
           ],
+          "links": {
+            "self": "https://api.fastly.com/tls/domains?filter%5Bcustomer.id%5D=1S5uCkNAEhEMS2ZoJZoiCn&include=tls_certificates%2Ctls_activations%2Ctls_subscriptions%2Ctls_subscriptions.tls_authorizations&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+            "first": "https://api.fastly.com/tls/domains?filter%5Bcustomer.id%5D=1S5uCkNAEhEMS2ZoJZoiCn&include=tls_certificates%2Ctls_activations%2Ctls_subscriptions%2Ctls_subscriptions.tls_authorizations&page%5Bnumber%5D=1&page%5Bsize%5D=20",
+            "prev": null,
+            "next": null,
+            "last": "https://api.fastly.com/tls/domains?filter%5Bcustomer.id%5D=1S5uCkNAEhEMS2ZoJZoiCn&include=tls_certificates%2Ctls_activations%2Ctls_subscriptions%2Ctls_subscriptions.tls_authorizations&page%5Bnumber%5D=1&page%5Bsize%5D=20"
+          },
           "meta": {
+            "record_count": 12,
             "current_page": 1,
             "per_page": 20,
-            "record_count": 2,
             "total_pages": 1
           }
         },
@@ -786,7 +2197,7 @@
       }
     },
     {
-      "description": "tls/private_keys endpoint",
+      "description": "tls/private_keys",
       "providerStates": [
         {
           "name": "the fastly customer exists"
@@ -801,7 +2212,7 @@
       "request": {
         "headers": {
           "Accept": "application/vnd.api+json",
-          "Content-Type": "application/vnd.api+json"
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         "method": "GET",
         "path": "http://api.dev.local/tls/private_keys",
