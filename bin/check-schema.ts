@@ -19,23 +19,19 @@ interface Interaction {
  * file and a matching json-schema file has been found. Examine the interaction against
  * the schema definition
  **/
-async function checkInteraction(
-  schemaFilename: string,
-  body: object,
-  description: string
-) {
+async function checkInteraction(schemaFilename: string, interaction: Object) {
   const schemaFh = await fs.promises.open(schemaFilename, "r+")
   const schemaJson = await schemaFh.readFile({ encoding: "utf8" })
   const validate = ajvInstance.compile(JSON.parse(schemaJson))
 
-  const valid = validate(body)
+  const valid = validate(interaction)
   if (valid) {
-    console.log(`${description} : valid`)
+    console.log(`: valid`)
   } else {
-    console.error(`${description} --------------------`)
+    console.error(`--------------------`)
     console.error(JSON.parse(schemaJson))
     console.error("--------------------")
-    console.log(`${description} : invalid`)
+    console.log(`: invalid`)
     console.error(ajvInstance.errorsText(validate.errors))
   }
   return valid
@@ -55,51 +51,31 @@ async function testPact(pactFilename: string) {
   const output = []
 
   for (let index = 0; index < pact.interactions.length; index++) {
-    const interaction = pact.interactions[index] as Interaction
+    const interaction = pact.interactions[index]
     const base = interaction.description.split("/").join("-")
-    const schemaFilename = `${base}-schema.json`
-    if (files.includes(schemaFilename)) {
-      const results = await checkInteraction(
-        `schema/${schemaFilename}`,
-        interaction.response.body,
-        interaction.description
-      )
+    const filename = `${base}-schema.json`
+    if (files.includes(filename)) {
+      const results = await checkInteraction(filename, interaction)
       output.push(results)
     }
   }
   return output
 }
 
-async function checkPact(pactFilename: string) {
+async function main(readInteractionFilename: string, schemaFilename: string) {
   try {
-    const output = await testPact(pactFilename)
-    console.log("results:", output)
-    if (output.length === 0) {
-      console.error("No tests found")
-      process.exit(3)
-    }
-    if (output.includes(false)) process.exit(5)
-    process.exit(0)
-  } catch (e) {
-    console.error("error", e)
-    process.exit(10)
-  }
-}
-
-async function checkSchemaAgainstReal(
-  realInteractionFilename: string,
-  schemaFilename: string
-) {
-  try {
-    const interactionFh = await fs.promises.open(realInteractionFilename, "r+")
+    const interactionFh = await fs.promises.open(readInteractionFilename, "r+")
     const interactionText = await interactionFh.readFile({ encoding: "utf8" })
     const interaction = JSON.parse(interactionText)
 
-    const results = await checkInteraction(
-      schemaFilename,
-      interaction,
-      "schema-check"
-    )
+    const results = await checkInteraction(schemaFilename, interaction)
+    // const output = await testPact(filename)
+    // console.log("results:", output)
+    // if (output.length === 0) {
+    //   console.error("No tests found")
+    //   process.exit(3)
+    // }
+    // if (output.includes(false)) process.exit(5)
     process.exit(0)
   } catch (e) {
     console.error("error", e)
@@ -107,21 +83,11 @@ async function checkSchemaAgainstReal(
   }
 }
 
-if (process.argv.length === 4) {
-  const schemaFilename = process.argv[2]
-  const outputFilename = process.argv[3]
-  const schemaStat = fs.statSync(schemaFilename)
-  const outputStat = fs.statSync(outputFilename)
-  if (schemaStat.isFile() && outputStat.isFile()) {
-    checkSchemaAgainstReal(outputFilename, schemaFilename)
-  } else {
-    process.exit(2)
-  }
-} else if (process.argv.length === 3) {
-  checkPact(process.argv[2])
-} else {
+if (process.argv.length !== 4) {
   console.error(
     "must provide a filename as the one and only argument to this script."
   )
   process.exit(2)
 }
+
+main(process.argv[2], process.argv[3])

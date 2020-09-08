@@ -197,6 +197,9 @@
             "relationships": {
               "type": "object",
               "properties": {
+                "tls_activations": {
+                  "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
                 "tls_domains": {
                   "$ref": "#/$defs/jsonapi_has_many_relationship"
                 },
@@ -208,6 +211,20 @@
                 }
               },
               "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "type_tls_authorization": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/jsonapi_object"
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "tls_authorization"
             }
           }
         }
@@ -240,6 +257,9 @@
                 },
                 "tls_authorizations": {
                   "$ref": "#/$defs/jsonapi_has_many_relationship"
+                },
+                "tls_configuration": {
+                  "$ref": "#/$defs/jsonapi_has_one_relationship"
                 }
               },
               "additionalProperties": false
@@ -263,6 +283,9 @@
         "oneOf": [
           {
             "$ref": "#/$defs/type_tls_domain"
+          },
+          {
+            "$ref": "#/$defs/type_tls_authorization"
           },
           {
             "$ref": "#/$defs/type_tls_subscription"
