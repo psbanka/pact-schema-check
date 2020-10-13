@@ -26,19 +26,29 @@ async function checkInteraction(
 ) {
   const schemaFh = await fs.promises.open(schemaFilename, "r+")
   const schemaJson = await schemaFh.readFile({ encoding: "utf8" })
-  const validate = ajvInstance.compile(JSON.parse(schemaJson))
-
-  const valid = validate(body)
-  if (valid) {
-    console.log(`${description} : valid`)
-  } else {
-    console.error(`${description} --------------------`)
-    console.error(JSON.parse(schemaJson))
-    console.error("--------------------")
-    console.log(`${description} : invalid`)
-    console.error(ajvInstance.errorsText(validate.errors))
+  try {
+    const validate = ajvInstance.compile(JSON.parse(schemaJson))
+    const valid = validate(body)
+    if (valid) {
+      console.log(`${description} : valid`)
+    } else {
+      console.error(`${description} INVALID ------------`)
+      console.error("SCHEMA -------------")
+      console.error(schemaJson)
+      console.error("BODY ---------------")
+      console.error(JSON.stringify(body, undefined, 2))
+      console.error("ERRORS -------------")
+      console.error(
+        ajvInstance.errorsText(validate.errors).split(", ").join("\n")
+      )
+      console.error("--------------------")
+    }
+    return valid
+  } catch (e) {
+    console.error(`ERROR parsing ${schemaFilename}`)
+    console.error(e)
+    return [false]
   }
-  return valid
 }
 
 /**
@@ -49,25 +59,33 @@ async function checkInteraction(
 async function testPact(pactFilename: string) {
   const pactFh = await fs.promises.open(pactFilename, "r+")
   const pactText = await pactFh.readFile({ encoding: "utf8" })
-  const pact = JSON.parse(pactText)
+  try {
+    const pact = JSON.parse(pactText)
+    const files = await fs.promises.readdir("schema")
+    const output = []
 
-  const files = await fs.promises.readdir("schema")
-  const output = []
-
-  for (let index = 0; index < pact.interactions.length; index++) {
-    const interaction = pact.interactions[index] as Interaction
-    const base = interaction.description.split("/").join("-")
-    const schemaFilename = `${base}-schema.json`
-    if (files.includes(schemaFilename)) {
-      const results = await checkInteraction(
-        `schema/${schemaFilename}`,
-        interaction.response.body,
-        interaction.description
-      )
-      output.push(results)
+    for (let index = 0; index < pact.interactions.length; index++) {
+      const interaction = pact.interactions[index] as Interaction
+      const base = interaction.description.split("/").join("-")
+      const schemaFilename = `${base}-schema.json`
+      if (files.includes(schemaFilename)) {
+        const results = await checkInteraction(
+          `schema/${schemaFilename}`,
+          interaction.response.body,
+          interaction.description
+        )
+        output.push(results)
+      } else {
+        console.error(`ERROR finding schema file: ${schemaFilename}`)
+        output.push(false)
+      }
     }
+    return output
+  } catch (e) {
+    console.error(`ERROR parsing ${pactFilename}`)
+    console.error(e)
+    return [false]
   }
-  return output
 }
 
 async function checkPact(pactFilename: string) {
@@ -90,11 +108,16 @@ async function checkSchemaAgainstReal(
   realInteractionFilename: string,
   schemaFilename: string
 ) {
+  let interactionText
   try {
     const interactionFh = await fs.promises.open(realInteractionFilename, "r+")
-    const interactionText = await interactionFh.readFile({ encoding: "utf8" })
+    interactionText = await interactionFh.readFile({ encoding: "utf8" })
+  } catch (e) {
+    console.error("error", e)
+    process.exit(10)
+  }
+  try {
     const interaction = JSON.parse(interactionText)
-
     const results = await checkInteraction(
       schemaFilename,
       interaction,
@@ -102,7 +125,8 @@ async function checkSchemaAgainstReal(
     )
     process.exit(0)
   } catch (e) {
-    console.error("error", e)
+    console.error(`ERROR parsing ${realInteractionFilename}`)
+    console.error(e)
     process.exit(10)
   }
 }

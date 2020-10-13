@@ -1,6 +1,6 @@
 {
   "name": "@fastly/pact-schema-check",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A library for testing pact contracts against json-schema",
   "main": "bin/index.ts",
   "bin": {
